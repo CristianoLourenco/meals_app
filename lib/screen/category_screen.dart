@@ -17,7 +17,13 @@ class CatgoryScreen extends StatelessWidget {
           mainAxisSpacing: 20,
         ),
         children: <Widget>[
-          ...List.generate(6, (index) => Text(index.toString()))
+          ...List.generate(
+            6,
+            (index) => Text(
+              index.toString(),
+              style: const TextStyle(color: Colors.white),
+            ),
+          )
         ],
       ),
     );
