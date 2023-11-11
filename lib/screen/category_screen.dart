@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/data/available_categorties.dart';
+import 'package:meals_app/data/dummy_data.dart';
 import 'package:meals_app/widgets/category_grid_item.dart';
 
-class CatgoryScreen extends StatelessWidget {
-  const CatgoryScreen({super.key});
+class CategoryScreen extends StatelessWidget {
+  const CategoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
