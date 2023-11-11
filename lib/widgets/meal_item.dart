@@ -16,6 +16,33 @@ class MealItemWidget extends StatelessWidget {
             FadeInImage(
               placeholder: MemoryImage(kTransparentImage),
               image: NetworkImage(model.imageUrl),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                color: Colors.black54,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 6, horizontal: 44),
+                child: Column(
+                  children: [
+                    Text(
+                      model.title,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                  ],
+                ),
+              ),
             )
           ],
         ),
