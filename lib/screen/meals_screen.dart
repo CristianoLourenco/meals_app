@@ -38,10 +38,11 @@ class MealsScreen extends StatelessWidget {
 
     if (mealList.isNotEmpty) {
       content = ListView.builder(
-          itemCount: mealList.length,
-          itemBuilder: (context, index) {
-            return MealItemWidget(model: mealList[index]);
-          });
+        itemCount: mealList.length,
+        itemBuilder: (context, index) {
+          return MealItemWidget(model: mealList[index]);
+        },
+      );
     }
     return Scaffold(
       appBar: AppBar(

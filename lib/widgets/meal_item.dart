@@ -9,6 +9,12 @@ class MealItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.all(8),
+      clipBehavior: Clip.hardEdge,
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: InkWell(
         onTap: () {},
         child: Stack(
@@ -16,6 +22,9 @@ class MealItemWidget extends StatelessWidget {
             FadeInImage(
               placeholder: MemoryImage(kTransparentImage),
               image: NetworkImage(model.imageUrl),
+              fit: BoxFit.cover,
+              width: double.maxFinite,
+              height: 200,
             ),
             Positioned(
               bottom: 0,
@@ -30,16 +39,17 @@ class MealItemWidget extends StatelessWidget {
                     Text(
                       model.title,
                       maxLines: 2,
-                      textAlign: TextAlign.center,
                       softWrap: true,
+                      textAlign: TextAlign.center, //! very long text: ...
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 20,
-                        fontWeight: FontWeight.bold,
                         color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 12),
+                    Row(children: [])
                   ],
                 ),
               ),
