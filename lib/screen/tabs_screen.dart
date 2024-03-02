@@ -24,7 +24,7 @@ class _TabsSceenState extends State<TabsSceen> {
     String activePageTitle = 'Categoties';
 
     if (_slectedPageIndex == 1) {
-      activePage = const MealsScreen(title: 'Favorites', mealList: []);
+      activePage = const MealsScreen(mealList: []);
       activePageTitle = 'Your Favorites';
     }
     return Scaffold(
