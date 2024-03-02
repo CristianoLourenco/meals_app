@@ -7,13 +7,14 @@ final theme = ThemeData(
     colorScheme: ColorScheme.fromSeed(
         brightness: Brightness.dark,
         seedColor: const Color.fromARGB(255, 131, 57, 0)),
-    textTheme: GoogleFonts.latoTextTheme());
-void main() {
-  runApp(const App());
-}
+    textTheme: GoogleFonts.latoTextTheme(),);
 
-class App extends StatelessWidget {
-  const App({super.key});
+void main() =>
+  runApp(const MealsApp());
+
+
+class MealsApp extends StatelessWidget {
+  const MealsApp({super.key});
 
   @override
   Widget build(BuildContext context) {

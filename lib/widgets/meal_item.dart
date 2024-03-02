@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/model/meal_model.dart';
+import 'package:meals_app/widgets/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealItemWidget extends StatelessWidget {
-  const MealItemWidget({super.key, required this.model});
+  const MealItemWidget({
+    super.key,
+    required this.model,
+    required this.onSelectMeal,
+  });
 
   final MealModel model;
+  final void Function(MealModel model) onSelectMeal;
+
+  String get complexityText {
+    return model.complexity.name[0].toUpperCase() +
+        model.complexity.name.substring(1);
+  }
+
+  String get affordabilityText {
+    return model.affordability.name[0].toUpperCase() +
+        model.affordability.name.substring(1);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -16,7 +33,7 @@ class MealItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () => onSelectMeal(model),
         child: Stack(
           children: [
             FadeInImage(
@@ -49,7 +66,25 @@ class MealItemWidget extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    Row(children: [])
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MealIemTrait(
+                          icon: Icons.schedule,
+                          label: '${model.duration} min',
+                        ),
+                        const SizedBox(width: 12),
+                        MealIemTrait(
+                          icon: Icons.work,
+                          label: '$complexityText min',
+                        ),
+                        const SizedBox(width: 12),
+                        MealIemTrait(
+                          icon: Icons.attach_money,
+                          label: affordabilityText,
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
