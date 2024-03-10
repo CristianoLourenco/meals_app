@@ -14,28 +14,29 @@ class _TabsSceenState extends State<TabsSceen> {
   int _slectedPageIndex = 0;
   final _favoritMeals = <MealModel>[];
 
+  void _showInfoMessage(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        behavior: SnackBarBehavior.floating,
+        content: Text(message),
+      ),
+    );
+  }
+
   void _toggleMealFavoritStatus(MealModel model) {
     final isExisting = _favoritMeals.contains(model);
     if (isExisting) {
-      _favoritMeals.remove(model);
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Theme.of(context).colorScheme.onBackground,
-          behavior: SnackBarBehavior.floating,
-          content: Text('${model.title} removed from favorites'),
-        ),
-      );
+      setState(() {
+        _favoritMeals.remove(model);
+      });
+      _showInfoMessage('${model.title} removed from favorites');
     } else {
-      _favoritMeals.add(model);
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          behavior: SnackBarBehavior.floating,
-          content: Text('${model.title} added to favorites'),
-        ),
-      );
+      setState(() {
+        _favoritMeals.add(model);
+      });
+      _showInfoMessage('${model.title} added to favorites');
     }
   }
 
