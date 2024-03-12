@@ -47,6 +47,13 @@ class _TabsSceenState extends State<TabsSceen> {
     });
   }
 
+  void _setScreen(String identifier) {
+    if (identifier == 'Filter') {
+    } else {
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Object activePage = CategoryScreen(
@@ -65,7 +72,7 @@ class _TabsSceenState extends State<TabsSceen> {
       appBar: AppBar(
         title: Text(activePageTitle),
       ),
-      drawer: const MainDrawer(),
+      drawer: MainDrawer(onSelected: _setScreen),
       body: activePage as Widget,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectedPage,
