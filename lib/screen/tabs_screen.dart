@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/model/meal_model.dart';
 import 'package:meals_app/screen/category_screen.dart';
+import 'package:meals_app/screen/filters_screen.dart';
 import 'package:meals_app/screen/meals_screen.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
 
@@ -48,10 +49,18 @@ class _TabsSceenState extends State<TabsSceen> {
   }
 
   void _setScreen(String identifier) {
-    if (identifier == 'Filter') {
-    } else {
+    // do it a single time
+    Navigator.of(context).pop();
+    if (identifier == 'Filters') {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const FiltersScreen(),
+      ));
+    }
+    /*we need to close the drawer 
+    else {
       Navigator.of(context).pop();
     }
+    */
   }
 
   @override
