@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/data/enum/enum_file.dart';
 import 'package:meals_app/model/meal_model.dart';
 import 'package:meals_app/screen/category_screen.dart';
 import 'package:meals_app/screen/filters_screen.dart';
@@ -48,13 +49,16 @@ class _TabsSceenState extends State<TabsSceen> {
     });
   }
 
-  void _setScreen(String identifier) {
+  void _setScreen(String identifier) async {
     // do it a single time
     Navigator.of(context).pop();
     if (identifier == 'Filters') {
-      Navigator.of(context).push(MaterialPageRoute(
+      // getting information back using navigator
+      final result =
+          await Navigator.of(context).push<Map<Filter, bool>>(MaterialPageRoute(
         builder: (context) => const FiltersScreen(),
       ));
+      print(result);
     }
     /*we need to close the drawer 
     else {

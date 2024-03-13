@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/data/enum/enum_file.dart';
 import 'package:meals_app/widgets/switchlist_widget.dart';
 // import 'package:meals_app/screen/tabs_screen.dart';
 // import 'package:meals_app/widgets/main_drawer.dart';
@@ -15,8 +16,8 @@ class FiltersScreen extends StatefulWidget {
 class _FiltersScreenState extends State<FiltersScreen> {
   var _glutenFreeFilterSet = false;
   var _lactoseFreeFilterSet = false;
-  var _veganFreeFilterSet = false;
-  var _vegetarianFreeFilterSet = false;
+  var _veganFilterSet = false;
+  var _vegetarianFilterSet = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,50 +33,66 @@ class _FiltersScreenState extends State<FiltersScreen> {
       appBar: AppBar(
         title: const Text('Your Filters'),
       ),
-      body: Column(
-        children: [
-          // New Widget
-          SwitchListWidget(
-            value: _glutenFreeFilterSet,
-            title: 'Gluten-free',
-            subtitile: 'Only include gluten-free meals.',
-            onChanged: (isCheked) {
-              setState(() {
-                _glutenFreeFilterSet = isCheked;
-              });
-            },
-          ),
-          SwitchListWidget(
-            value: _lactoseFreeFilterSet,
-            title: 'Lactose-free',
-            subtitile: 'Only include Lactose-free meals.',
-            onChanged: (isCheked) {
-              setState(() {
-                _lactoseFreeFilterSet = isCheked;
-              });
-            },
-          ),
-          SwitchListWidget(
-            value: _vegetarianFreeFilterSet,
-            title: 'Vegetarian',
-            subtitile: 'Only include Vegetarian meals.',
-            onChanged: (isCheked) {
-              setState(() {
-                _vegetarianFreeFilterSet = isCheked;
-              });
-            },
-          ),
-          SwitchListWidget(
-            value: _veganFreeFilterSet,
-            title: 'Vegan-free',
-            subtitile: 'Only include Vegan meals.',
-            onChanged: (isCheked) {
-              setState(() {
-                _veganFreeFilterSet = isCheked;
-              });
-            },
-          ),
-        ],
+      // PopScope alow only manually back 
+      body: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) {
+          if (didPop) {
+            return;
+          }
+        // Sending information back using navigator
+          Navigator.of(context).pop({
+            Filter.glutenFree: _glutenFreeFilterSet,
+            Filter.lactoseFree: _lactoseFreeFilterSet,
+            Filter.vegetarian: _vegetarianFilterSet,
+            Filter.vegan: _veganFilterSet,
+          });
+        },
+        child: Column(
+          children: [
+            // New Widget
+            SwitchListWidget(
+              value: _glutenFreeFilterSet,
+              title: 'Gluten-free',
+              subtitile: 'Only include gluten-free meals.',
+              onChanged: (isCheked) {
+                setState(() {
+                  _glutenFreeFilterSet = isCheked;
+                });
+              },
+            ),
+            SwitchListWidget(
+              value: _lactoseFreeFilterSet,
+              title: 'Lactose-free',
+              subtitile: 'Only include Lactose-free meals.',
+              onChanged: (isCheked) {
+                setState(() {
+                  _lactoseFreeFilterSet = isCheked;
+                });
+              },
+            ),
+            SwitchListWidget(
+              value: _vegetarianFilterSet,
+              title: 'Vegetarian',
+              subtitile: 'Only include Vegetarian meals.',
+              onChanged: (isCheked) {
+                setState(() {
+                  _vegetarianFilterSet = isCheked;
+                });
+              },
+            ),
+            SwitchListWidget(
+              value: _veganFilterSet,
+              title: 'Vegan-free',
+              subtitile: 'Only include Vegan meals.',
+              onChanged: (isCheked) {
+                setState(() {
+                  _veganFilterSet = isCheked;
+                });
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

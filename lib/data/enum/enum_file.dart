@@ -9,3 +9,10 @@ enum Affordability {
   pricey,
   luxurious,
 }
+
+enum Filter {
+  glutenFree,
+  lactoseFree,
+  vegetarian,
+  vegan,
+}
