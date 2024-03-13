@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/widgets/switchlist_widget.dart';
 // import 'package:meals_app/screen/tabs_screen.dart';
 // import 'package:meals_app/widgets/main_drawer.dart';
 
@@ -13,48 +14,67 @@ class FiltersScreen extends StatefulWidget {
 
 class _FiltersScreenState extends State<FiltersScreen> {
   var _glutenFreeFilterSet = false;
+  var _lactoseFreeFilterSet = false;
+  var _veganFreeFilterSet = false;
+  var _vegetarianFreeFilterSet = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    //   drawer: MainDrawer(onSelected: (identifier) {
-    //       Navigator.of(context).pop();
-    // if (identifier == 'Meals') {
-    //   Navigator.of(context).pushReplacement(MaterialPageRoute(
-    //     builder: (context) => const TabsSceen(),
-    //   ));
-    // } 
-    //   }),
+      //   drawer: MainDrawer(onSelected: (identifier) {
+      //       Navigator.of(context).pop();
+      // if (identifier == 'Meals') {
+      //   Navigator.of(context).pushReplacement(MaterialPageRoute(
+      //     builder: (context) => const TabsSceen(),
+      //   ));
+      // }
+      //   }),
       appBar: AppBar(
         title: const Text('Your Filters'),
       ),
       body: Column(
         children: [
           // New Widget
-          SwitchListTile(
+          SwitchListWidget(
             value: _glutenFreeFilterSet,
+            title: 'Gluten-free',
+            subtitile: 'Only include gluten-free meals.',
             onChanged: (isCheked) {
               setState(() {
                 _glutenFreeFilterSet = isCheked;
               });
             },
-            title: Text(
-              'Gluten-free',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
-            ),
-            subtitle: Text(
-              'Only include gluten-free meals.',
-              style: Theme.of(context)
-                  .textTheme
-                  .labelMedium!
-                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
-            ),
-            activeColor: Theme.of(context).colorScheme.tertiary,
-            contentPadding: const EdgeInsets.only(left: 34, right: 32),
-          )
+          ),
+          SwitchListWidget(
+            value: _lactoseFreeFilterSet,
+            title: 'Lactose-free',
+            subtitile: 'Only include Lactose-free meals.',
+            onChanged: (isCheked) {
+              setState(() {
+                _lactoseFreeFilterSet = isCheked;
+              });
+            },
+          ),
+          SwitchListWidget(
+            value: _vegetarianFreeFilterSet,
+            title: 'Vegetarian',
+            subtitile: 'Only include Vegetarian meals.',
+            onChanged: (isCheked) {
+              setState(() {
+                _vegetarianFreeFilterSet = isCheked;
+              });
+            },
+          ),
+          SwitchListWidget(
+            value: _veganFreeFilterSet,
+            title: 'Vegan-free',
+            subtitile: 'Only include Vegan meals.',
+            onChanged: (isCheked) {
+              setState(() {
+                _veganFreeFilterSet = isCheked;
+              });
+            },
+          ),
         ],
       ),
     );
