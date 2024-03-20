@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/data/dummy_data.dart';
 import 'package:meals_app/data/enum/enum_file.dart';
 import 'package:meals_app/model/meal_model.dart';
 import 'package:meals_app/screen/category_screen.dart';
 import 'package:meals_app/screen/filters_screen.dart';
 import 'package:meals_app/screen/meals_screen.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
+
+const kInitialFilters = {
+  Filter.glutenFree: false,
+  Filter.lactoseFree: false,
+  Filter.vegetarian: false,
+  Filter.vegan: false
+};
 
 class TabsSceen extends StatefulWidget {
   const TabsSceen({super.key});
@@ -16,6 +24,7 @@ class TabsSceen extends StatefulWidget {
 class _TabsSceenState extends State<TabsSceen> {
   int _slectedPageIndex = 0;
   final _favoritMeals = <MealModel>[];
+  Map<Filter, bool> _selectedFilters = kInitialFilters;
 
   void _showInfoMessage(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
@@ -54,11 +63,17 @@ class _TabsSceenState extends State<TabsSceen> {
     Navigator.of(context).pop();
     if (identifier == 'Filters') {
       // getting information back using navigator
-      final result =
-          await Navigator.of(context).push<Map<Filter, bool>>(MaterialPageRoute(
-        builder: (context) => const FiltersScreen(),
-      ));
-      print(result);
+      final result = await Navigator.of(context).push<Map<Filter, bool>>(
+        MaterialPageRoute(
+          builder: (context) => FiltersScreen(
+            currentFilters: _selectedFilters,
+          ),
+        ),
+      );
+
+      setState(() {
+        _selectedFilters = result ?? kInitialFilters;
+      });
     }
     /*we need to close the drawer 
     else {
@@ -69,8 +84,25 @@ class _TabsSceenState extends State<TabsSceen> {
 
   @override
   Widget build(BuildContext context) {
+    final availableMeals = dummyMealModels.where((meal) {
+      if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
+        return false;
+      }
+      if (_selectedFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
+        return false;
+      }
+      if (_selectedFilters[Filter.vegetarian]! && !meal.isVegetarian) {
+        return false;
+      }
+      if (_selectedFilters[Filter.vegan]! && !meal.isVegan) {
+        return false;
+      }
+      return true;
+    }).toList();
+
     Object activePage = CategoryScreen(
       onToggleFavorite: _toggleMealFavoritStatus,
+      availableMeals: availableMeals,
     );
     String activePageTitle = 'Categoties';
 

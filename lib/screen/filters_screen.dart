@@ -5,7 +5,12 @@ import 'package:meals_app/widgets/switchlist_widget.dart';
 // import 'package:meals_app/widgets/main_drawer.dart';
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
+  final Map<Filter, bool> currentFilters;
+
+  const FiltersScreen({
+    super.key,
+    required this.currentFilters,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -14,10 +19,19 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  var _glutenFreeFilterSet = false;
-  var _lactoseFreeFilterSet = false;
-  var _veganFilterSet = false;
-  var _vegetarianFilterSet = false;
+  late bool _glutenFreeFilterSet;
+  late bool _lactoseFreeFilterSet;
+  late bool _veganFilterSet;
+  late bool _vegetarianFilterSet;
+
+  @override
+  void initState() {
+    super.initState();
+    _glutenFreeFilterSet = widget.currentFilters[Filter.glutenFree] ?? false;
+    _lactoseFreeFilterSet = widget.currentFilters[Filter.lactoseFree] ?? false;
+    _veganFilterSet = widget.currentFilters[Filter.vegan] ?? false;
+    _vegetarianFilterSet = widget.currentFilters[Filter.vegetarian] ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +47,14 @@ class _FiltersScreenState extends State<FiltersScreen> {
       appBar: AppBar(
         title: const Text('Your Filters'),
       ),
-      // PopScope alow only manually back 
+      // PopScope alow only manually back
       body: PopScope(
         canPop: false,
         onPopInvoked: (didPop) {
           if (didPop) {
             return;
           }
-        // Sending information back using navigator
+          //! Sending information back using navigator
           Navigator.of(context).pop({
             Filter.glutenFree: _glutenFreeFilterSet,
             Filter.lactoseFree: _lactoseFreeFilterSet,
