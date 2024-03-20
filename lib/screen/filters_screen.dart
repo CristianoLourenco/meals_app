@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals_app/data/enum/enum_file.dart';
+import 'package:meals_app/provider/filters_provider.dart';
 import 'package:meals_app/widgets/switchlist_widget.dart';
 // import 'package:meals_app/screen/tabs_screen.dart';
 // import 'package:meals_app/widgets/main_drawer.dart';
 
-class FiltersScreen extends StatefulWidget {
-  final Map<Filter, bool> currentFilters;
+class FiltersScreen extends ConsumerStatefulWidget { 
 
   const FiltersScreen({
-    super.key,
-    required this.currentFilters,
+    super.key, 
   });
 
   @override
-  State<StatefulWidget> createState() {
+  ConsumerState<FiltersScreen> createState() {
     return _FiltersScreenState();
   }
 }
 
-class _FiltersScreenState extends State<FiltersScreen> {
+class _FiltersScreenState extends ConsumerState<FiltersScreen> {
   late bool _glutenFreeFilterSet;
   late bool _lactoseFreeFilterSet;
   late bool _veganFilterSet;
@@ -27,10 +27,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
   @override
   void initState() {
     super.initState();
-    _glutenFreeFilterSet = widget.currentFilters[Filter.glutenFree] ?? false;
-    _lactoseFreeFilterSet = widget.currentFilters[Filter.lactoseFree] ?? false;
-    _veganFilterSet = widget.currentFilters[Filter.vegan] ?? false;
-    _vegetarianFilterSet = widget.currentFilters[Filter.vegetarian] ?? false;
+    final activeFilters = ref.read(filtersProvider);
+    _glutenFreeFilterSet = activeFilters[Filter.glutenFree] ?? false;
+    _lactoseFreeFilterSet = activeFilters[Filter.lactoseFree] ?? false;
+    _veganFilterSet = activeFilters[Filter.vegan] ?? false;
+    _vegetarianFilterSet = activeFilters[Filter.vegetarian] ?? false;
   }
 
   @override
@@ -47,20 +48,17 @@ class _FiltersScreenState extends State<FiltersScreen> {
       appBar: AppBar(
         title: const Text('Your Filters'),
       ),
-      // PopScope alow only manually back
+      // PopScope alow block manually back
       body: PopScope(
-        canPop: false,
+        canPop: true,
         onPopInvoked: (didPop) {
-          if (didPop) {
-            return;
-          }
-          //! Sending information back using navigator
-          Navigator.of(context).pop({
+          ref.read(filtersProvider.notifier).setallFitlers({
             Filter.glutenFree: _glutenFreeFilterSet,
             Filter.lactoseFree: _lactoseFreeFilterSet,
             Filter.vegetarian: _vegetarianFilterSet,
             Filter.vegan: _veganFilterSet,
           });
+          return;
         },
         child: Column(
           children: [

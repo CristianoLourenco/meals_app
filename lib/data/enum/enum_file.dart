@@ -16,3 +16,10 @@ enum Filter {
   vegetarian,
   vegan,
 }
+
+const kInitialFilters = {
+  Filter.glutenFree: false,
+  Filter.lactoseFree: false,
+  Filter.vegetarian: false,
+  Filter.vegan: false
+};
