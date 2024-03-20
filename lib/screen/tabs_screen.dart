@@ -97,6 +97,7 @@ class _TabsSceenState extends State<TabsSceen> {
       if (_selectedFilters[Filter.vegan]! && !meal.isVegan) {
         return false;
       }
+
       return true;
     }).toList();
 
