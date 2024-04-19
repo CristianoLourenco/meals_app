@@ -5,15 +5,17 @@ import 'package:meals_app/provider/favorites_provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealDetailsScreen extends ConsumerWidget {
+  final MealModel mealModel;
+
   const MealDetailsScreen({
     super.key,
     required this.mealModel,
   });
 
-  final MealModel mealModel;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final bool isFavorite =
+        ref.watch(favoriteMealsProvider).contains(mealModel);
     return Scaffold(
       appBar: AppBar(
         title: Text(mealModel.title),
@@ -23,6 +25,7 @@ class MealDetailsScreen extends ConsumerWidget {
               final wasAdded = ref
                   .read(favoriteMealsProvider.notifier)
                   .toogleFavoriteMeal(mealModel);
+
               ScaffoldMessenger.of(context).clearSnackBars();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -34,7 +37,7 @@ class MealDetailsScreen extends ConsumerWidget {
                 ),
               );
             },
-            icon: const Icon(Icons.star),
+            icon: Icon(isFavorite ? Icons.star : Icons.star_border),
           )
         ],
       ),
