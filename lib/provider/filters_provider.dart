@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals_app/data/enum/enum_file.dart';
+import 'package:meals_app/provider/meals_provider.dart';
 
 class FiltersNotifier extends StateNotifier<Map<Filter, bool>> {
   FiltersNotifier() : super(kInitialFilters);
@@ -20,3 +21,25 @@ class FiltersNotifier extends StateNotifier<Map<Filter, bool>> {
 final filtersProvider =
     StateNotifierProvider<FiltersNotifier, Map<Filter, bool>>(
         (ref) => FiltersNotifier());
+
+final fiterMealsProvider = Provider((ref) {
+  final activeFilters = ref.watch(filtersProvider);
+  final meals = ref.watch(mealsProvider);
+
+ return meals.where((meal) {
+    if (activeFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
+      return false;
+    }
+    if (activeFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
+      return false;
+    }
+    if (activeFilters[Filter.vegetarian]! && !meal.isVegetarian) {
+      return false;
+    }
+    if (activeFilters[Filter.vegan]! && !meal.isVegan) {
+      return false;
+    }
+
+    return true;
+  }).toList();
+});
