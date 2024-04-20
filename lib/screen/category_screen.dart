@@ -5,16 +5,32 @@ import 'package:meals_app/model/meal_model.dart';
 import 'package:meals_app/screen/meals_screen.dart';
 import 'package:meals_app/widgets/category_grid_item.dart';
 
-class CategoryScreen extends StatelessWidget {
+class CategoryScreen extends StatefulWidget {
   const CategoryScreen({
-    super.key, 
+    super.key,
     required this.availableMeals,
   });
- 
+
   final List<MealModel> availableMeals;
 
+  @override
+  State<CategoryScreen> createState() => _CategoryScreenState();
+}
+
+class _CategoryScreenState extends State<CategoryScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+    );
+    super.initState();
+  }
+
   void _selectCategory(BuildContext context, CategoryModel model) {
-    final mealsList = availableMeals
+    final mealsList = widget.availableMeals
         .where(
           (meal) => meal.categories.contains(model.id),
         )
@@ -24,7 +40,7 @@ class CategoryScreen extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => MealsScreen(
           title: model.title,
-          mealList: mealsList, 
+          mealList: mealsList,
         ),
       ),
     );
