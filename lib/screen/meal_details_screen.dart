@@ -39,11 +39,21 @@ class MealDetailsScreen extends ConsumerWidget {
             },
             icon: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              transitionBuilder: (child, animation) => RotationTransition(
-                turns: animation,
-                child: child,
+              transitionBuilder: (child, animation) {
+                return RotationTransition(
+                  turns: Tween<double>(begin: 0.5, end: 1).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeIn,
+                    ),
+                  ),
+                  child: child,
+                );
+              },
+              child: Icon(
+                isFavorite ? Icons.star : Icons.star_border,
+                key: ValueKey(isFavorite),
               ),
-              child: Icon(isFavorite ? Icons.star : Icons.star_border),
             ),
           )
         ],
