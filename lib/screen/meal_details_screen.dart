@@ -40,8 +40,8 @@ class MealDetailsScreen extends ConsumerWidget {
             icon: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               transitionBuilder: (child, animation) {
-                return RotationTransition(
-                  turns: Tween<double>(begin: 0.5, end: 1).animate(
+                return SizeTransition(
+                  sizeFactor: Tween<double>(begin: 0.1, end: 1).animate(
                     CurvedAnimation(
                       parent: animation,
                       curve: Curves.easeIn,
@@ -61,12 +61,15 @@ class MealDetailsScreen extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            FadeInImage(
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(mealModel.imageUrl),
-              width: double.maxFinite,
-              height: 300,
-              fit: BoxFit.cover,
+            Hero(
+              tag: mealModel.id,
+              child: FadeInImage(
+                placeholder: MemoryImage(kTransparentImage),
+                image: NetworkImage(mealModel.imageUrl),
+                width: double.maxFinite,
+                height: 300,
+                fit: BoxFit.cover,
+              ),
             ),
             const SizedBox(height: 14),
             Text(

@@ -21,6 +21,7 @@ class MealsApp extends StatelessWidget {
     return MaterialApp(
       theme: theme,
       home: const TabsSceen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
