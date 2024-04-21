@@ -25,8 +25,19 @@ class _CategoryScreenState extends State<CategoryScreen>
   void initState() {
     _animationController = AnimationController(
       vsync: this,
+      duration: const Duration(milliseconds: 300),
+      lowerBound: 0,
+      upperBound: 1,
     );
     super.initState();
+
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   void _selectCategory(BuildContext context, CategoryModel model) {
@@ -48,23 +59,38 @@ class _CategoryScreenState extends State<CategoryScreen>
 
   @override
   Widget build(BuildContext context) {
-    return GridView(
-      padding: const EdgeInsets.all(24),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 1.5,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
+    return AnimatedBuilder(
+      animation: _animationController,
+      child: GridView(
+        padding: const EdgeInsets.all(24),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 1.5,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+        ),
+        children: <Widget>[
+          for (final categoryModel in availableCategories)
+            CategoryGridItem(
+              categoryModel: categoryModel,
+              onSelectCategory: () {
+                _selectCategory(context, categoryModel);
+              },
+            )
+        ],
       ),
-      children: <Widget>[
-        for (final categoryModel in availableCategories)
-          CategoryGridItem(
-            categoryModel: categoryModel,
-            onSelectCategory: () {
-              _selectCategory(context, categoryModel);
-            },
-          )
-      ],
+      builder: (context, child) => SlideTransition(
+        position: Tween(
+          begin: const Offset(0, 0.3),
+          end: const Offset(0, 0),
+        ).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.decelerate,
+          ),
+        ),
+        child: child,
+      ),
     );
   }
 }
