@@ -15,15 +15,20 @@ class TabsSceen extends ConsumerStatefulWidget {
 }
 
 class _TabsSceenState extends ConsumerState<TabsSceen> {
-  int _slectedPageIndex = 0;
+  late int _selectedPageIndex;
+
+  @override
+  void initState() {
+    _selectedPageIndex = 0;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final availableMeals = ref.watch(fiterMealsProvider);
-
-    String activePageTitle = 'Category';
-    Widget activePage = CategoryScreen(availableMeals: availableMeals);
-    _controlIndexChange(activePage, activePageTitle);
+    const String category = "Categories";
+    String activePageTitle = category;
+    const String favorites = "Favorites";
+    Widget activePage = _controlIndexChange(activePageTitle);
 
     return Scaffold(
       appBar: AppBar(
@@ -33,32 +38,35 @@ class _TabsSceenState extends ConsumerState<TabsSceen> {
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectedPage,
-        currentIndex: _slectedPageIndex,
+        currentIndex: _selectedPageIndex,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.set_meal),
-            label: 'Categories',
+            label: category,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
-            label: 'Favorites',
+            label: favorites,
           )
         ],
       ),
     );
   }
 
-  void _controlIndexChange(Widget activePage, String activePageTitle) {
-    if (_slectedPageIndex == 1) {
+  Widget _controlIndexChange(String activePageTitle) {
+    final availableMeals = ref.watch(fiterMealsProvider);
+
+    if (_selectedPageIndex == 1) {
       final favoritMeals = ref.watch(favoriteMealsProvider);
-      activePage = MealsScreen(mealList: favoritMeals);
       activePageTitle = 'Your Favorites';
+      return MealsScreen(mealList: favoritMeals);
     }
+    return CategoryScreen(availableMeals: availableMeals);
   }
 
   void _selectedPage(int index) {
     setState(() {
-      _slectedPageIndex = index;
+      _selectedPageIndex = index;
     });
   }
 

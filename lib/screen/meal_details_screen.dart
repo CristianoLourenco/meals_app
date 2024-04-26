@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals_app/model/meal_model.dart';
 import 'package:meals_app/provider/favorites_provider.dart';
+import 'package:meals_app/widgets/favorite_icon_btn.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealDetailsScreen extends ConsumerWidget {
@@ -16,45 +17,15 @@ class MealDetailsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isFavorite =
         ref.watch(favoriteMealsProvider).contains(mealModel);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(mealModel.title),
         actions: [
-          IconButton(
-            onPressed: () {
-              final wasAdded = ref
-                  .read(favoriteMealsProvider.notifier)
-                  .toogleFavoriteMeal(mealModel);
-
-              ScaffoldMessenger.of(context).clearSnackBars();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  behavior: SnackBarBehavior.floating,
-                  content: Text(wasAdded
-                      ? 'Meal added as a favorite!'
-                      : 'Meal removed from favorites!'),
-                ),
-              );
-            },
-            icon: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              transitionBuilder: (child, animation) {
-                return SizeTransition(
-                  sizeFactor: Tween<double>(begin: 0.1, end: 1).animate(
-                    CurvedAnimation(
-                      parent: animation,
-                      curve: Curves.easeIn,
-                    ),
-                  ),
-                  child: child,
-                );
-              },
-              child: Icon(
-                isFavorite ? Icons.star : Icons.star_border,
-                key: ValueKey(isFavorite),
-              ),
-            ),
+          FavoriteIconButtonWidget(
+            mealModel: mealModel,
+            isFavorite: isFavorite,
+            onPressed: () => _onFavoritePressed(context, ref),
           )
         ],
       ),
@@ -112,6 +83,21 @@ class MealDetailsScreen extends ConsumerWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _onFavoritePressed(BuildContext context, WidgetRef ref) {
+    const String addedText = "Meal added as a favorite!";
+    const String removedText = "Meal removed from favorites!";
+    final wasAdded =
+        ref.read(favoriteMealsProvider.notifier).toogleFavoriteMeal(mealModel);
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        content: Text(wasAdded ? addedText : removedText),
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }
