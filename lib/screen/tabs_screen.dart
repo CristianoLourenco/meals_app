@@ -16,7 +16,7 @@ class TabsSceen extends ConsumerStatefulWidget {
 
 class _TabsSceenState extends ConsumerState<TabsSceen> {
   int _slectedPageIndex = 0;
- 
+
   void _selectedPage(int index) {
     setState(() {
       _slectedPageIndex = index;
@@ -26,29 +26,25 @@ class _TabsSceenState extends ConsumerState<TabsSceen> {
   void _setScreen(String identifier) async {
     // do it a single time
     Navigator.of(context).pop();
-    if (identifier == 'Filters') { 
+    if (identifier == 'Filters') {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const FiltersScreen(),
         ),
       );
-    } 
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final availableMeals = ref.watch(fiterMealsProvider);
 
-    Object activePage = CategoryScreen(
-      availableMeals: availableMeals,
-    );
-    String activePageTitle = 'Categoties';
+    String activePageTitle = 'Category';
+    Widget activePage = CategoryScreen(availableMeals: availableMeals);
 
     if (_slectedPageIndex == 1) {
       final favoritMeals = ref.watch(favoriteMealsProvider);
-      activePage = MealsScreen(
-        mealList: favoritMeals,
-      );
+      activePage = MealsScreen(mealList: favoritMeals);
       activePageTitle = 'Your Favorites';
     }
     return Scaffold(
@@ -56,7 +52,7 @@ class _TabsSceenState extends ConsumerState<TabsSceen> {
         title: Text(activePageTitle),
       ),
       drawer: MainDrawer(onSelected: _setScreen),
-      body: activePage as Widget,
+      body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectedPage,
         currentIndex: _slectedPageIndex,
