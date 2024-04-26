@@ -17,36 +17,14 @@ class TabsSceen extends ConsumerStatefulWidget {
 class _TabsSceenState extends ConsumerState<TabsSceen> {
   int _slectedPageIndex = 0;
 
-  void _selectedPage(int index) {
-    setState(() {
-      _slectedPageIndex = index;
-    });
-  }
-
-  void _setScreen(String identifier) async {
-    // do it a single time
-    Navigator.of(context).pop();
-    if (identifier == 'Filters') {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const FiltersScreen(),
-        ),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final availableMeals = ref.watch(fiterMealsProvider);
 
     String activePageTitle = 'Category';
     Widget activePage = CategoryScreen(availableMeals: availableMeals);
+    _controlIndexChange(activePage, activePageTitle);
 
-    if (_slectedPageIndex == 1) {
-      final favoritMeals = ref.watch(favoriteMealsProvider);
-      activePage = MealsScreen(mealList: favoritMeals);
-      activePageTitle = 'Your Favorites';
-    }
     return Scaffold(
       appBar: AppBar(
         title: Text(activePageTitle),
@@ -68,5 +46,31 @@ class _TabsSceenState extends ConsumerState<TabsSceen> {
         ],
       ),
     );
+  }
+
+  void _controlIndexChange(Widget activePage, String activePageTitle) {
+    if (_slectedPageIndex == 1) {
+      final favoritMeals = ref.watch(favoriteMealsProvider);
+      activePage = MealsScreen(mealList: favoritMeals);
+      activePageTitle = 'Your Favorites';
+    }
+  }
+
+  void _selectedPage(int index) {
+    setState(() {
+      _slectedPageIndex = index;
+    });
+  }
+
+  void _setScreen(String identifier) async {
+    // do it a single time
+    Navigator.of(context).pop();
+    if (identifier == 'Filters') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const FiltersScreen(),
+        ),
+      );
+    }
   }
 }
