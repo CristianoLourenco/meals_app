@@ -10,15 +10,18 @@ class MealIemTrait extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 17,
-          color: Colors.white,
+        Padding(
+          padding: const EdgeInsets.only(right: 4),
+          child: Icon(
+            icon,
+            size: 17,
+            color: Colors.white,
+          ),
         ),
-        const SizedBox(width: 6),
         Text(
           label,
           style: const TextStyle(
+            overflow: TextOverflow.ellipsis,
             color: Colors.white,
           ),
         ),

@@ -3,12 +3,12 @@ import 'package:meals_app/model/meal_model.dart';
 import 'package:meals_app/screen/meal_details_screen.dart';
 import 'package:meals_app/widgets/meal_item.dart';
 
-class MealsScreenContent extends StatelessWidget {
-  const MealsScreenContent({
-    super.key, 
+class MealsContent extends StatelessWidget {
+  const MealsContent({
+    super.key,
     required this.mealList,
   });
- 
+
   final List<MealModel> mealList;
 
   @override
@@ -41,14 +41,14 @@ class MealsScreenContent extends StatelessWidget {
       );
     }
     return ListView.builder(
-        itemCount: mealList.length,
-        itemBuilder: (context, index) {
-          return MealItemWidget(
-            model: mealList[index],
-            onSelectMeal: (model) => onSelectMeal(context, model),
-          );
-        },
-      );
+      itemCount: mealList.length,
+      itemBuilder: (context, index) {
+        return MealItemWidget(
+          model: mealList[index],
+          onSelectMeal: (model) => onSelectMeal(context, model),
+        );
+      },
+    );
   }
 
   void onSelectMeal(BuildContext context, MealModel model) {

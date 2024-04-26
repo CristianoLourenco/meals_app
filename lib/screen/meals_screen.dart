@@ -16,7 +16,7 @@ class MealsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: MealsScreenContent(mealList: mealList),
+      body: MealsContent(mealList: mealList),
     );
   }
 }
