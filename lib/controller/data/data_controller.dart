@@ -411,19 +411,26 @@ final _dummyMealModels = [
 class MealsDataController {
   final _allMeals = <MealModel>[];
   Future<Object> setMeals() async {
+    Object? response;
     try {
       for (var meal in _dummyMealModels) {
         _allMeals.add(meal);
       }
       await Future.delayed(const Duration(milliseconds: 300));
+      response = await http
+          .get(Uri.parse(
+              "https://65527d4c5c69a779032a1a48.mockapi.io/getinfoapp/users"))
+          .timeout(const Duration(milliseconds: 2500));
     } catch (e) {
       print(e);
     }
-    final response = await http.get(Uri(scheme: "https", host: "google.com"));
-    return response;
+    return response ?? '';
   }
 
   List<MealModel> getMeals() {
+    if (_allMeals.isEmpty) {
+      return _dummyMealModels;
+    }
     return _allMeals;
   }
 }
