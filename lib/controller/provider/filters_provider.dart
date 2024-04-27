@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meals_app/data/enum/enum_file.dart';
-import 'package:meals_app/provider/meals_provider.dart';
+import 'package:meals_app/controller/data/enum/enum_file.dart';
+import 'package:meals_app/controller/provider/meals_provider.dart';
 
 class FiltersNotifier extends StateNotifier<Map<Filter, bool>> {
   FiltersNotifier() : super(kInitialFilters);

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meals_app/data/enum/enum_file.dart';
-import 'package:meals_app/provider/filters_provider.dart';
-import 'package:meals_app/widgets/switchlist_widget.dart';
+import 'package:meals_app/controller/data/enum/enum_file.dart';
+import 'package:meals_app/controller/provider/filters_provider.dart';
+import 'package:meals_app/view/widgets/switchlist_widget.dart';
 
 class FiltersScreen extends ConsumerWidget {
   const FiltersScreen({super.key});

@@ -1,4 +1,4 @@
-import 'package:meals_app/data/enum/enum_file.dart';
+import 'package:meals_app/controller/data/enum/enum_file.dart';
 
 class MealModel {
   final String id;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/data/dummy_data.dart';
+import 'package:meals_app/controller/data/data_controller.dart';
 import 'package:meals_app/model/category_model.dart';
 import 'package:meals_app/model/meal_model.dart';
-import 'package:meals_app/screen/meals_screen.dart';
-import 'package:meals_app/widgets/category_grid_item.dart';
+import 'package:meals_app/view/screen/meals_screen.dart';
+import 'package:meals_app/view/widgets/category_grid_item.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({
@@ -23,38 +23,14 @@ class _CategoryScreenState extends State<CategoryScreen>
 
   @override
   void initState() {
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-      lowerBound: 0,
-      upperBound: 1,
-    );
+    _initState();
     super.initState();
-
-    _animationController.forward();
   }
 
   @override
   void dispose() {
     _animationController.dispose();
     super.dispose();
-  }
-
-  void _selectCategory(BuildContext context, CategoryModel model) {
-    final mealsList = widget.availableMeals
-        .where(
-          (meal) => meal.categories.contains(model.id),
-        )
-        .toList();
-
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => MealsScreen(
-          title: model.title,
-          mealList: mealsList,
-        ),
-      ),
-    );
   }
 
   @override
@@ -73,9 +49,7 @@ class _CategoryScreenState extends State<CategoryScreen>
           for (final categoryModel in availableCategories)
             CategoryGridItem(
               categoryModel: categoryModel,
-              onSelectCategory: () {
-                _selectCategory(context, categoryModel);
-              },
+              onSelectCategory: () => _selectCategory(context, categoryModel),
             )
         ],
       ),
@@ -90,6 +64,33 @@ class _CategoryScreenState extends State<CategoryScreen>
           ),
         ),
         child: child,
+      ),
+    );
+  }
+
+  void _initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+      lowerBound: 0,
+      upperBound: 1,
+    );
+    _animationController.forward();
+  }
+
+  void _selectCategory(BuildContext context, CategoryModel model) {
+    final mealsList = widget.availableMeals
+        .where(
+          (meal) => meal.categories.contains(model.id),
+        )
+        .toList();
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => MealsScreen(
+          title: model.title,
+          mealList: mealsList,
+        ),
       ),
     );
   }

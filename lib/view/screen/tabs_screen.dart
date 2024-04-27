@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meals_app/provider/favorites_provider.dart';
-import 'package:meals_app/provider/filters_provider.dart';
-import 'package:meals_app/screen/category_screen.dart';
-import 'package:meals_app/screen/filters_screen.dart';
-import 'package:meals_app/screen/meals_screen.dart';
-import 'package:meals_app/widgets/main_drawer.dart';
+import 'package:meals_app/controller/provider/favorites_provider.dart';
+import 'package:meals_app/controller/provider/filters_provider.dart';
+import 'package:meals_app/view/screen/category_screen.dart';
+import 'package:meals_app/view/screen/filters_screen.dart';
+import 'package:meals_app/view/screen/meals_screen.dart';
+import 'package:meals_app/view/widgets/main_drawer.dart';
 
 class TabsSceen extends ConsumerStatefulWidget {
   const TabsSceen({super.key});
@@ -16,19 +16,20 @@ class TabsSceen extends ConsumerStatefulWidget {
 
 class _TabsSceenState extends ConsumerState<TabsSceen> {
   late int _selectedPageIndex;
+  late String activePageTitle;
 
   @override
   void initState() {
     _selectedPageIndex = 0;
+    activePageTitle = "Categories";
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     const String category = "Categories";
-    String activePageTitle = category;
     const String favorites = "Favorites";
-    Widget activePage = _controlIndexChange(activePageTitle);
+    Widget activePage = _controlIndexChange();
 
     return Scaffold(
       appBar: AppBar(
@@ -53,14 +54,15 @@ class _TabsSceenState extends ConsumerState<TabsSceen> {
     );
   }
 
-  Widget _controlIndexChange(String activePageTitle) {
+  Widget _controlIndexChange() {
     final availableMeals = ref.watch(fiterMealsProvider);
 
     if (_selectedPageIndex == 1) {
       final favoritMeals = ref.watch(favoriteMealsProvider);
-      activePageTitle = 'Your Favorites';
+      activePageTitle = "Your Favorites";
       return MealsScreen(mealList: favoritMeals);
     }
+    activePageTitle = "Categories";
     return CategoryScreen(availableMeals: availableMeals);
   }
 

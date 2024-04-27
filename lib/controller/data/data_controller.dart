@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/data/enum/enum_file.dart';
+import 'package:meals_app/controller/data/enum/enum_file.dart';
 import 'package:meals_app/model/category_model.dart';
 import 'package:meals_app/model/meal_model.dart';
+import 'package:http/http.dart' as http;
 
 const availableCategories = [
   CategoryModel(
@@ -56,7 +57,7 @@ const availableCategories = [
   ),
 ];
 
- final  dummyMealModels = [
+final _dummyMealModels = [
   MealModel(
     id: 'm1',
     categories: [
@@ -90,7 +91,6 @@ const availableCategories = [
     isVegan: true,
     isVegetarian: true,
     isLactoseFree: true,
- 
   ),
   MealModel(
     id: 'm2',
@@ -407,3 +407,23 @@ const availableCategories = [
     isLactoseFree: true,
   ),
 ];
+
+class MealsDataController {
+  final _allMeals = <MealModel>[];
+  Future<Object> setMeals() async {
+    try {
+      for (var meal in _dummyMealModels) {
+        _allMeals.add(meal);
+      }
+      await Future.delayed(const Duration(milliseconds: 300));
+    } catch (e) {
+      print(e);
+    }
+    final response = await http.get(Uri(scheme: "https", host: "google.com"));
+    return response;
+  }
+
+  List<MealModel> getMeals() {
+    return _allMeals;
+  }
+}
